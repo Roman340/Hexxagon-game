@@ -32,10 +32,19 @@ class HexAIBot:
         if self.difficulty == "Легкий":
             _, b_from, b_to = random.choice(all_possible_moves)
             return b_from, b_to
-        elif self.difficulty == "Сложный":
+
+        elif self.difficulty == "Средний":
             all_possible_moves.sort(key=lambda x: x[0], reverse=True)
-            _, b_from, b_to = all_possible_moves[0]
+            top_moves = all_possible_moves[:min(3, len(all_possible_moves))]
+            _, b_from, b_to = random.choice(top_moves)
             return b_from, b_to
+
+        elif self.difficulty == "Сложный":
+            max_score = max(move[0] for move in all_possible_moves)
+            best_moves = [move for move in all_possible_moves if move[0] == max_score]
+            _, b_from, b_to = random.choice(best_moves)
+            return b_from, b_to
+
         else:
             best_score = -999
             best_move = None
